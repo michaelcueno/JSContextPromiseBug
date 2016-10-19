@@ -90,6 +90,9 @@ void waitAsync() {
     [super tearDown];
 }
 
+/**
+ * I believe this test failure demonstrates the bug. See the file PromiseTests.js in supporting files for the JS function.
+ */
 - (void)testBrokenWithNativePromises {
     [self.context evaluateScript:@"performTest()"];
     [self.fixture waitForAndValidateResultUsing:^(JSValue *actual) {
@@ -97,6 +100,9 @@ void waitAsync() {
     }];
 }
 
+/**
+ * This test performs the same javascript, only it replaces native promises with javascript promises first. 
+ */
 - (void)testWorkingWithoutNativePromises {
     [self.context evaluateScript:@"window.Promise = undefined;"];
     [self.fixture injectAsset:@"Promise"]; // es-6 Prmoises
@@ -106,7 +112,9 @@ void waitAsync() {
     }];
 }
 
-// Resolves the promise in the thenable of the nested promise.
+/**
+ * Resolves the promise in the thenable of the nested promise.
+ */
 - (void)testBrokenWithNativePromisesWorking {
     [self.context evaluateScript:@"performTestWorking()"];
     [self.fixture waitForAndValidateResultUsing:^(JSValue *actual) {
